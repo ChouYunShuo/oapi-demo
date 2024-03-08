@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/ChouYunShuo/oapi-demo/idm"
+	"github.com/go-chi/render"
 
 	"github.com/google/uuid"
 )
@@ -24,17 +25,11 @@ type IdmStore struct {
 var _ ServerInterface = (*IdmStore)(nil)
 
 func sendIdmStoreError(w http.ResponseWriter, code int, message string) {
-	idmErr := Error{
-		Code:    int32(code),
-		Message: message,
-	}
-	w.WriteHeader(code)
-	_ = json.NewEncoder(w).Encode(idmErr)
+	http.Error(w, message, code)
 }
 
 func (h *IdmStore) GetPublic(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode("Public route!!")
+	render.JSON(w, r, "Public route!!")
 }
 
 /*
@@ -45,12 +40,11 @@ func (h *IdmStore) GetUser(w http.ResponseWriter, r *http.Request, params GetUse
 	user, err := h.IdmService.Queries.FindUserByUsername(context.Background(), params.Username)
 
 	if err != nil {
-		sendIdmStoreError(w, http.StatusNotFound, fmt.Sprintf("Could not find User with Username %s", params.Username))
+		sendIdmStoreError(w, http.StatusInternalServerError, fmt.Sprintf("Could not find User with Username %s", params.Username))
 		return
 	}
-
 	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode(user)
+	render.JSON(w, r, user)
 }
 
 /*
@@ -89,13 +83,13 @@ func (h *IdmStore) PostUser(w http.ResponseWriter, r *http.Request) {
 	err := h.IdmService.Queries.CreateUser(context.Background(), newUser)
 
 	if err != nil {
-		sendIdmStoreError(w, http.StatusNotFound, "Could not create new entry")
+		sendIdmStoreError(w, http.StatusInternalServerError, "Could not create new entry")
 		return
 	}
 
 	// Respond with the created user data.
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newUser)
+	render.JSON(w, r, newUser)
 }
 
 /*
@@ -134,20 +128,20 @@ func (h *IdmStore) PutUser(w http.ResponseWriter, r *http.Request) {
 	err = h.IdmService.Queries.UpdateUser(context.Background(), updateUser)
 
 	if err != nil {
-		sendIdmStoreError(w, http.StatusBadGateway, "Failed to save user")
+		sendIdmStoreError(w, http.StatusInternalServerError, "Failed to save user")
 		return
 	}
 
 	// Respond with the created user data.
 	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode(updateUser)
+	render.JSON(w, r, updateUser)
 }
 
 func (h *IdmStore) DeleteUser(w http.ResponseWriter, r *http.Request, params DeleteUserParams) {
 	err := h.IdmService.Queries.DeleteUserByUsername(context.Background(), params.Username)
 
 	if err != nil {
-		sendIdmStoreError(w, http.StatusNotFound, fmt.Sprintf("Could not delete user with name %s", params.Username))
+		sendIdmStoreError(w, http.StatusInternalServerError, fmt.Sprintf("Could not delete user with name %s", params.Username))
 		return
 	}
 
