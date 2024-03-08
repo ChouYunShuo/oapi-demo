@@ -4,7 +4,8 @@ go 1.22.0
 
 require (
 	github.com/go-chi/chi/v5 v5.0.12
-	github.com/go-chi/jwtauth v1.2.0
+	github.com/go-chi/jwtauth v1.2.0   
+	github.com/go-chi/render v1.0.2
 	github.com/google/uuid v1.6.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jackc/pgx/v5 v5.5.4
@@ -22,7 +23,6 @@ require (
 	github.com/go-chi/cors v1.2.1 // indirect
 	github.com/go-chi/httplog v0.3.2 // indirect
 	github.com/go-chi/httplog/v2 v2.0.8 // indirect
-	github.com/go-chi/render v1.0.2 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
