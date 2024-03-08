@@ -33,6 +33,14 @@ go install github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
 
 This command installs the latest version of `oapi-codegen`, which is essential for generating code based on your OpenAPI specifications.
 
+To successfully run oapi-codegen from the shell, you need to include the Go binary directory in your system's PATH environment variable. You can do this by executing the following command:
+
+```bash
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+This command appends the directory where Go binaries are stored ($(go env GOPATH)/bin) to your existing PATH, ensuring that the shell can find and execute oapi-codegen."
+
 ## Usage
 
 After installing `oapi-codegen`, you can generate HTTP API functions and types with the following commands:
@@ -49,7 +57,7 @@ To generate the Chi server:
 oapi-codegen -generate chi-server -o idm_server.gen.go -package api idm.yaml
 ```
 
-These commands will generate Go code in your specified output files (`idm_types.gen.go` and `idm_server.gen.go`) from the OpenAPI specification file (`idm.yaml`).
+These commands will generate Go code in the output files you specify, namely `idm_types.gen.go` and `idm_server.gen.go`, based on the OpenAPI specification file `idm.yaml`. Please adjust the variable names to match your specific file names.
 
 ## Features
 
