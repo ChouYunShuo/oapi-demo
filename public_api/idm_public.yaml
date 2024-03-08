@@ -1,0 +1,153 @@
+openapi: 3.0.0
+
+info:
+  title: User Management API
+  description: OpenAPI specification for a user management application
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4000/
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userid:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+      required:
+        - userid
+        - username
+        - password
+        - firstname
+    PostUser:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+      required:
+        - username
+        - password
+        - firstname
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - code
+        - message
+      
+paths:
+  /get:
+    get:
+      description: Retrieves a user's information based on the username query parameter.
+      operationId: getUser
+      parameters:
+        - name: username
+          in: query
+          description: Username to fetch the user information
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User information response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /post:
+    post:
+      description: Creates a new user with the provided information.
+      operationId: postUser
+      requestBody:
+        description: User information to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostUser'
+      responses:
+        '201':
+          description: User creation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /put:
+    put:
+      description: Updates a user's information.
+      operationId: putUser
+      requestBody:
+        description: User information to be updated
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /delete:
+    delete:
+      description: Deletes a user based on the provided username query parameter.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: query
+          description: Username of the user to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content, indicating successful deletion
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

@@ -1,0 +1,1 @@
+ALTER TABLE idm_users ALTER COLUMN deleted_at DROP NOT NULL;

@@ -1,0 +1,23 @@
+# Binaries and executables
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+.idea/
+*.sublime-workspace
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Folders
+_obj
+_test
