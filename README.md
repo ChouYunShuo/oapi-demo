@@ -13,7 +13,6 @@ This project is a Go-based application that utilizes `oapi-codegen` for generati
 - [Configuration](#configuration)
 - [Documentation](#documentation)
 - [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
 - [Contributors](#contributors)
 - [License](#license)
 
